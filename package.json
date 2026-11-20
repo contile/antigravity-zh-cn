@@ -29,7 +29,7 @@
     "restore": "node bin/cli.js restore",
     "status": "node bin/cli.js status",
     "validate-dict": "node bin/cli.js validate-dict",
-    "test": "node --test test/*.test.js"
+    "test": "node --test"
   },
   "engines": {
     "node": ">=18.0.0"
