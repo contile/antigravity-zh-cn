@@ -89,11 +89,11 @@ function main() {
 
   if (command === 'validate-dict') {
     const { stats } = loadDictionaries();
-    console.log('[OK] 词库校验通过！');
-    console.log(`  - 菜单/弹窗精确词条: ${stats.menuExactCount}`);
-    console.log(`  - 菜单/弹窗动态规则: ${stats.menuPatternCount}`);
-    console.log(`  - 界面 UI 精确词条:  ${stats.uiExactCount}`);
-    console.log(`  - 界面 UI 动态规则:  ${stats.uiPatternCount}`);
+    console.log('[OK] 词库校验通过');
+    console.log(`  - 菜单/弹窗: ${stats.menuExactCount} 条精确 + ${stats.menuPatternCount} 条规则`);
+    console.log(
+      `  - 界面/设置: ${stats.uiExactCount} 条短语 + ${stats.uiControlCount} 条控件词 + ${stats.uiPatternCount} 条规则`
+    );
     return;
   }
 
@@ -119,7 +119,7 @@ function main() {
     console.log('[OK] Antigravity 简体中文汉化安装成功！');
     console.log(`  - 目标版本: ${result.meta.targetAppName} v${result.meta.targetAppVersion}`);
     console.log(
-      `  - 词条统计: 菜单 ${result.meta.stats.menuExactCount}+${result.meta.stats.menuPatternCount} 条，界面 ${result.meta.stats.uiExactCount}+${result.meta.stats.uiPatternCount} 条`
+      `  - 词条数量: 菜单 ${result.meta.stats.menuExactCount}+${result.meta.stats.menuPatternCount}，界面 ${result.meta.stats.uiExactCount}+${result.meta.stats.uiControlCount}+${result.meta.stats.uiPatternCount}`
     );
     console.log(
       `  - 完整校验: 已通过 ${result.verification.checkedIntegrity}/${result.verification.fileCount} 个文件 SHA-256 校验`

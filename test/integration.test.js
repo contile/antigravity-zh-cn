@@ -30,7 +30,9 @@ test(
     const copyAsar = path.join(tmpDir, 'app.asar');
 
     try {
-      fs.copyFileSync(realAsarPath, copyAsar);
+      const backupPath = `${realAsarPath}.zh-cn.bak`;
+      const sourceAsar = fs.existsSync(backupPath) ? backupPath : realAsarPath;
+      fs.copyFileSync(sourceAsar, copyAsar);
       const origHash = sha256(fs.readFileSync(copyAsar));
 
       // 1. Initial status

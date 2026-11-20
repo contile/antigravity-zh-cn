@@ -1,9 +1,5 @@
 'use strict';
 
-/**
- * Core installer / restorer / status checker for antigravity-zh-cn.
- */
-
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -23,27 +19,28 @@ function getBackupPath(asarPath) {
   return `${asarPath}.zh-cn.bak`;
 }
 
-/**
- * Load and validate all Chinese locale dictionary files.
- */
 function loadDictionaries() {
-  const menuPath = path.join(LOCALE_DIR, 'menu.json');
-  const uiPath = path.join(LOCALE_DIR, 'ui.json');
-  const patternsPath = path.join(LOCALE_DIR, 'patterns.json');
-
-  const menuDict = JSON.parse(fs.readFileSync(menuPath, 'utf8'));
-  const uiDict = JSON.parse(fs.readFileSync(uiPath, 'utf8'));
-  const patternsDict = JSON.parse(fs.readFileSync(patternsPath, 'utf8'));
+  const menuDict = JSON.parse(fs.readFileSync(path.join(LOCALE_DIR, 'menu.json'), 'utf8'));
+  const uiDict = JSON.parse(fs.readFileSync(path.join(LOCALE_DIR, 'ui.json'), 'utf8'));
+  const settingsDict = JSON.parse(fs.readFileSync(path.join(LOCALE_DIR, 'settings.json'), 'utf8'));
+  const patternsDict = JSON.parse(fs.readFileSync(path.join(LOCALE_DIR, 'patterns.json'), 'utf8'));
 
   if (!menuDict.exact || typeof menuDict.exact !== 'object') {
-    throw new Error('Invalid locales/zh-CN/menu.json: missing "exact" object.');
+    throw new Error('locales/zh-CN/menu.json 缺少 exact 字段');
   }
   if (!uiDict.exact || typeof uiDict.exact !== 'object') {
-    throw new Error('Invalid locales/zh-CN/ui.json: missing "exact" object.');
+    throw new Error('locales/zh-CN/ui.json 缺少 exact 字段');
+  }
+  if (!settingsDict.exact || typeof settingsDict.exact !== 'object') {
+    throw new Error('locales/zh-CN/settings.json 缺少 exact 字段');
   }
   if (!Array.isArray(patternsDict.patterns)) {
-    throw new Error('Invalid locales/zh-CN/patterns.json: missing "patterns" array.');
+    throw new Error('locales/zh-CN/patterns.json 缺少 patterns 数组');
   }
+
+  const mergedExact = { ...uiDict.exact, ...settingsDict.exact };
+  const mergedControls = { ...(uiDict.controls || {}) };
+  const mergedPatterns = [...patternsDict.patterns];
 
   let customLoaded = false;
   if (fs.existsSync(USER_CUSTOM_DICT_PATH)) {
@@ -52,22 +49,24 @@ function loadDictionaries() {
       Object.assign(menuDict.exact, custom.menu);
     }
     if (custom.ui && typeof custom.ui === 'object') {
-      Object.assign(uiDict.exact, custom.ui);
+      Object.assign(mergedExact, custom.ui);
+    }
+    if (custom.controls && typeof custom.controls === 'object') {
+      Object.assign(mergedControls, custom.controls);
     }
     if (Array.isArray(custom.patterns)) {
-      patternsDict.patterns.push(...custom.patterns);
+      mergedPatterns.push(...custom.patterns);
     }
     customLoaded = true;
   }
 
-  // Validate all regex patterns compile cleanly
   for (const [label, list] of [
     ['menu.json', menuDict.patterns || []],
-    ['patterns.json', patternsDict.patterns],
+    ['patterns.json', mergedPatterns],
   ]) {
     for (const item of list) {
       if (typeof item.regex !== 'string' || typeof item.replace !== 'string') {
-        throw new Error(`Invalid pattern entry in ${label}: ${JSON.stringify(item)}`);
+        throw new Error(`${label} 中存在非法正则项: ${JSON.stringify(item)}`);
       }
       new RegExp(item.regex, item.flags || '');
     }
@@ -75,27 +74,22 @@ function loadDictionaries() {
 
   return {
     menuDict,
-    uiDict,
-    patternsDict,
-    customLoaded,
     rendererDict: {
-      exact: uiDict.exact,
-      patterns: patternsDict.patterns,
+      exact: mergedExact,
+      controls: mergedControls,
+      patterns: mergedPatterns,
     },
     stats: {
       menuExactCount: Object.keys(menuDict.exact).length,
       menuPatternCount: (menuDict.patterns || []).length,
-      uiExactCount: Object.keys(uiDict.exact).length,
-      uiPatternCount: patternsDict.patterns.length,
+      uiExactCount: Object.keys(mergedExact).length,
+      uiControlCount: Object.keys(mergedControls).length,
+      uiPatternCount: mergedPatterns.length,
       customLoaded,
     },
   };
 }
 
-/**
- * Inspect an ASAR archive buffer to read Antigravity metadata and patch status.
- * @param {Buffer} rawBuffer
- */
 function inspectAsarBuffer(rawBuffer) {
   const parsed = parseAsar(rawBuffer);
   const pkgBuf = readFileFromAsar(parsed, 'package.json');
@@ -104,9 +98,7 @@ function inspectAsarBuffer(rawBuffer) {
   const metaBuf = readFileFromAsar(parsed, META_ASAR_PATH);
 
   if (!pkgBuf || !mainBuf || !preloadBuf) {
-    throw new Error(
-      'This app.asar does not appear to be an Antigravity Desktop archive (missing package.json, dist/main.js, or dist/preload.js).'
-    );
+    throw new Error('目标 app.asar 不是有效的 Antigravity 桌面端包（缺少 package.json / dist/main.js / dist/preload.js）');
   }
 
   const appPkg = JSON.parse(pkgBuf.toString('utf8'));
@@ -134,9 +126,6 @@ function inspectAsarBuffer(rawBuffer) {
   };
 }
 
-/**
- * Strip any previous injected snippet between markers (safety guard).
- */
 function stripMarkers(source) {
   const startIdx = source.indexOf(PATCH_MARKER_START);
   if (startIdx === -1) return source;
@@ -145,9 +134,6 @@ function stripMarkers(source) {
   return source.slice(0, startIdx) + source.slice(endIdx + PATCH_MARKER_END.length);
 }
 
-/**
- * Inject main-process localization require line right after `"use strict";`.
- */
 function injectMainJs(originalMainJs) {
   const clean = stripMarkers(originalMainJs);
   const snippet = [
@@ -163,9 +149,6 @@ function injectMainJs(originalMainJs) {
   return snippet + '\n' + clean;
 }
 
-/**
- * Build a completely self-contained preload snippet (works in Electron sandboxed preloads).
- */
 function buildPreloadSnippet(rendererDict) {
   const preloadRuntimeSrc = fs
     .readFileSync(path.join(RUNTIME_DIR, 'preload-hook.js'), 'utf8')
@@ -191,18 +174,11 @@ function buildPreloadSnippet(rendererDict) {
   ].join('\n');
 }
 
-/**
- * Inject renderer DOM localization snippet at the end of `dist/preload.js`.
- */
 function injectPreloadJs(originalPreloadJs, rendererDict) {
   const clean = stripMarkers(originalPreloadJs);
   return clean + buildPreloadSnippet(rendererDict);
 }
 
-/**
- * Produce a patched ASAR buffer from a clean base ASAR buffer (pure in-memory, testable).
- * @param {Buffer} cleanAsarBuf
- */
 function buildPatchedAsarBuffer(cleanAsarBuf) {
   const dicts = loadDictionaries();
   const parsed = parseAsar(cleanAsarBuf);
@@ -211,7 +187,7 @@ function buildPatchedAsarBuffer(cleanAsarBuf) {
   const origMainBuf = readFileFromAsar(parsed, 'dist/main.js');
   const origPreloadBuf = readFileFromAsar(parsed, 'dist/preload.js');
   if (!origMainBuf || !origPreloadBuf) {
-    throw new Error('Missing dist/main.js or dist/preload.js inside app.asar.');
+    throw new Error('app.asar 中缺少 dist/main.js 或 dist/preload.js');
   }
 
   const mainHookBuf = fs.readFileSync(path.join(RUNTIME_DIR, 'main-hook.js'));
@@ -247,9 +223,6 @@ function buildPatchedAsarBuffer(cleanAsarBuf) {
   };
 }
 
-/**
- * Replace a file on disk atomically via a temp sibling file, with friendly lock errors.
- */
 function atomicWriteFile(targetPath, dataBuffer) {
   const tmpPath = `${targetPath}.zh-cn.tmp`;
   try {
@@ -257,7 +230,6 @@ function atomicWriteFile(targetPath, dataBuffer) {
     try {
       fs.renameSync(tmpPath, targetPath);
     } catch (renameErr) {
-      // On Windows, replacing an existing file can sometimes need copyFileSync fallback
       if (renameErr && (renameErr.code === 'EPERM' || renameErr.code === 'EEXIST')) {
         fs.copyFileSync(tmpPath, targetPath);
         fs.unlinkSync(tmpPath);
@@ -268,13 +240,10 @@ function atomicWriteFile(targetPath, dataBuffer) {
   } catch (err) {
     try {
       if (fs.existsSync(tmpPath)) fs.unlinkSync(tmpPath);
-    } catch {
-      // ignore cleanup error
-    }
+    } catch {}
     if (err && (err.code === 'EBUSY' || err.code === 'EPERM' || err.code === 'EACCES')) {
       const wrapped = new Error(
-        `无法写入 ${targetPath}（错误码：${err.code}）。\n` +
-          '请先完全退出 Antigravity（包括系统右下角托盘/菜单栏图标），必要时以管理员权限运行后重试。'
+        `无法写入 ${targetPath} (${err.code})，请先完全退出 Antigravity（含托盘图标）后重试。`
       );
       wrapped.code = err.code;
       throw wrapped;
@@ -283,10 +252,6 @@ function atomicWriteFile(targetPath, dataBuffer) {
   }
 }
 
-/**
- * Install (or update) the Chinese localization into the specified `app.asar`.
- * @param {string} asarPath
- */
 function installPatch(asarPath) {
   const backupPath = getBackupPath(asarPath);
   const currentBuf = fs.readFileSync(asarPath);
@@ -296,23 +261,20 @@ function installPatch(asarPath) {
   let backupAction;
 
   if (!currentInfo.patched) {
-    // Current app.asar is an unpatched official version (first install or post-update).
-    // Always refresh the backup from this clean version.
+    // Official unpatched app.asar (fresh install or post-update): refresh backup first.
     atomicWriteFile(backupPath, currentBuf);
     cleanBaseBuf = currentBuf;
     backupAction = 'created-or-refreshed';
   } else {
-    // Already patched: re-patch cleanly from the saved backup.
     if (!fs.existsSync(backupPath)) {
       throw new Error(
-        `检测到 ${asarPath} 已被汉化，但找不到原版备份文件 ${backupPath}。\n` +
-          '为避免重复注入，请先重新安装 Antigravity 或恢复官方 app.asar 后再执行汉化。'
+        `当前 app.asar 已打过补丁，但未找到原版备份 ${backupPath}，请先恢复官方 app.asar。`
       );
     }
     const backupBuf = fs.readFileSync(backupPath);
     const backupInfo = inspectAsarBuffer(backupBuf);
     if (backupInfo.patched) {
-      throw new Error(`备份文件 ${backupPath} 本身已被修改，已中止操作以确保安全。`);
+      throw new Error(`备份文件 ${backupPath} 并非原版，已中止操作。`);
     }
     cleanBaseBuf = backupBuf;
     backupAction = 'reused-existing';
@@ -330,21 +292,17 @@ function installPatch(asarPath) {
   };
 }
 
-/**
- * Restore the original unpatched `app.asar` from backup.
- * @param {string} asarPath
- */
 function restoreBackup(asarPath) {
   const backupPath = getBackupPath(asarPath);
   if (!fs.existsSync(backupPath)) {
-    throw new Error(`未找到备份文件：${backupPath}。当前可能尚未安装过汉化，或备份已被移除。`);
+    throw new Error(`未找到原版备份：${backupPath}`);
   }
 
   const backupBuf = fs.readFileSync(backupPath);
   const verification = verifyAsarBuffer(backupBuf);
   const info = inspectAsarBuffer(backupBuf);
   if (info.patched) {
-    throw new Error(`备份文件 ${backupPath} 并非原版文件，已中止还原。`);
+    throw new Error(`备份文件 ${backupPath} 并非原版，已中止还原。`);
   }
 
   atomicWriteFile(asarPath, backupBuf);
@@ -357,10 +315,6 @@ function restoreBackup(asarPath) {
   };
 }
 
-/**
- * Return current localization status of an `app.asar`.
- * @param {string} asarPath
- */
 function getStatus(asarPath) {
   const backupPath = getBackupPath(asarPath);
   const currentBuf = fs.readFileSync(asarPath);

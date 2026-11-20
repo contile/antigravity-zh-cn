@@ -31,6 +31,41 @@
       "replace": "已思考 $1 分 $2 秒"
     },
     {
+      "regex": "^Thought\\s+for\\s+<\\s*1\\s*s$",
+      "flags": "i",
+      "replace": "思考不足 1 秒"
+    },
+    {
+      "regex": "^Ran\\s+for\\s+(\\d+(?:\\.\\d+)?)\\s*s$",
+      "flags": "i",
+      "replace": "已运行 $1 秒"
+    },
+    {
+      "regex": "^Edited\\s+(.{1,80})$",
+      "flags": "",
+      "replace": "已编辑 $1"
+    },
+    {
+      "regex": "^Created\\s+(.{1,80})$",
+      "flags": "",
+      "replace": "已创建 $1"
+    },
+    {
+      "regex": "^Deleted\\s+(.{1,80})$",
+      "flags": "",
+      "replace": "已删除 $1"
+    },
+    {
+      "regex": "^Analyzed\\s+(.{1,80})$",
+      "flags": "",
+      "replace": "已分析 $1"
+    },
+    {
+      "regex": "^Read\\s+([\\w./\\\\\\-]{1,80})$",
+      "flags": "",
+      "replace": "已读取 $1"
+    },
+    {
       "regex": "^(\\d+)\\s+seconds?\\s+ago$",
       "flags": "i",
       "replace": "$1 秒前"
@@ -59,6 +94,11 @@
       "regex": "^(\\d+)\\s+months?\\s+ago$",
       "flags": "i",
       "replace": "$1 个月前"
+    },
+    {
+      "regex": "^(\\d+)\\s+years?\\s+ago$",
+      "flags": "i",
+      "replace": "$1 年前"
     },
     {
       "regex": "^Just\\s+now$",
@@ -91,6 +131,16 @@
       "replace": "本月"
     },
     {
+      "regex": "^Last\\s+7\\s+days$",
+      "flags": "i",
+      "replace": "最近 7 天"
+    },
+    {
+      "regex": "^Last\\s+30\\s+days$",
+      "flags": "i",
+      "replace": "最近 30 天"
+    },
+    {
       "regex": "^Older$",
       "flags": "",
       "replace": "更早"
@@ -99,6 +149,11 @@
       "regex": "^Showing\\s+(\\d+)\\s+of\\s+(\\d+)$",
       "flags": "i",
       "replace": "显示 $1 / $2"
+    },
+    {
+      "regex": "^(\\d+)\\s+of\\s+(\\d+)$",
+      "flags": "i",
+      "replace": "$1 / $2"
     },
     {
       "regex": "^(\\d+)\\s+agents?\\s+running$",
@@ -111,14 +166,79 @@
       "replace": "$1 个任务运行中"
     },
     {
+      "regex": "^(\\d+)\\s+subagents?$",
+      "flags": "i",
+      "replace": "$1 个子智能体"
+    },
+    {
+      "regex": "^(\\d+)\\s+terminals?$",
+      "flags": "i",
+      "replace": "$1 个终端"
+    },
+    {
+      "regex": "^(\\d+)\\s+artifacts?$",
+      "flags": "i",
+      "replace": "$1 个产物"
+    },
+    {
+      "regex": "^(\\d+)\\s+conversations?$",
+      "flags": "i",
+      "replace": "$1 条对话"
+    },
+    {
+      "regex": "^(\\d+)\\s+messages?$",
+      "flags": "i",
+      "replace": "$1 条消息"
+    },
+    {
+      "regex": "^(\\d+)\\s+steps?$",
+      "flags": "i",
+      "replace": "$1 个步骤"
+    },
+    {
+      "regex": "^(\\d+)\\s+tools?$",
+      "flags": "i",
+      "replace": "$1 个工具"
+    },
+    {
+      "regex": "^(\\d+)\\s+servers?$",
+      "flags": "i",
+      "replace": "$1 个服务器"
+    },
+    {
+      "regex": "^(\\d+)\\s+plugins?$",
+      "flags": "i",
+      "replace": "$1 个插件"
+    },
+    {
       "regex": "^(\\d+)\\s+results?$",
       "flags": "i",
       "replace": "$1 条结果"
     },
     {
+      "regex": "^(\\d+)\\s+matches?$",
+      "flags": "i",
+      "replace": "$1 处匹配"
+    },
+    {
       "regex": "^(\\d+)\\s+items?$",
       "flags": "i",
       "replace": "$1 项"
+    },
+    {
+      "regex": "^(\\d+)\\s+files?$",
+      "flags": "i",
+      "replace": "$1 个文件"
+    },
+    {
+      "regex": "^(\\d+)\\s+comments?$",
+      "flags": "i",
+      "replace": "$1 条批注"
+    },
+    {
+      "regex": "^Resume\\s+(\\d+)\\s+comment\\s+drafts?$",
+      "flags": "i",
+      "replace": "继续编辑 $1 条批注草稿"
     },
     {
       "regex": "^Setting\\s+up\\s+WSL:\\s+(.+)$",
@@ -144,6 +264,76 @@
       "regex": "^Exited\\s+with\\s+code\\s+(-?\\d+)$",
       "flags": "i",
       "replace": "已退出（代码 $1）"
+    },
+    {
+      "regex": "^Working\\s+[Dd]irectory:\\s*(.*)$",
+      "flags": "",
+      "replace": "工作目录：$1"
+    },
+    {
+      "regex": "^(\\d+)\\s+queued\\s+messages?$",
+      "flags": "i",
+      "replace": "$1 条排队消息"
+    },
+    {
+      "regex": "^Your\\s+Plan:\\s*(.+)$",
+      "flags": "",
+      "replace": "当前方案：$1"
+    },
+    {
+      "regex": "^Project\\s+ID:\\s*(.+)$",
+      "flags": "",
+      "replace": "项目 ID：$1"
+    },
+    {
+      "regex": "^You\\s+can\\s+upgrade\\s+to\\s+a\\s+(.+?)\\s+plan\\s+to\\s+receive\\s+higher\\s+rate\\s+limits\\.$",
+      "flags": "i",
+      "replace": "你可以升级到 $1 方案以获得更高的速率限制。"
+    },
+    {
+      "regex": "^(.+?)\\s+Weekly\\s+Limit(?:\\s+Remaining)?$",
+      "flags": "",
+      "replace": "$1 每周额度"
+    },
+    {
+      "regex": "^(.+?)\\s+Five\\s+Hour\\s+Limit(?:\\s+Remaining)?$",
+      "flags": "",
+      "replace": "$1 5 小时额度"
+    },
+    {
+      "regex": "^You\\s+have\\s+used\\s+some\\s+of\\s+your\\s+weekly\\s+limit,\\s+it\\s+will\\s+fully\\s+refresh\\s+in\\s+(.+)\\.$",
+      "flags": "i",
+      "replace": "已使用部分每周额度，将在 $1 后完全重置。"
+    },
+    {
+      "regex": "^You\\s+have\\s+used\\s+some\\s+of\\s+your\\s+5-hour\\s+limit,\\s+it\\s+will\\s+fully\\s+refresh\\s+in\\s+(.+)\\.$",
+      "flags": "i",
+      "replace": "已使用部分 5 小时额度，将在 $1 后完全重置。"
+    },
+    {
+      "regex": "^You\\s+have\\s+reached\\s+your\\s+weekly\\s+limit,\\s+it\\s+will\\s+fully\\s+refresh\\s+in\\s+(.+)\\.$",
+      "flags": "i",
+      "replace": "每周额度已用尽，将在 $1 后完全重置。"
+    },
+    {
+      "regex": "^You\\s+have\\s+reached\\s+your\\s+5-hour\\s+limit,\\s+it\\s+will\\s+fully\\s+refresh\\s+in\\s+(.+)\\.$",
+      "flags": "i",
+      "replace": "5 小时额度已用尽，将在 $1 后完全重置。"
+    },
+    {
+      "regex": "^You\\s+have\\s+not\\s+used\\s+any\\s+of\\s+your\\s+weekly\\s+limit\\.$",
+      "flags": "i",
+      "replace": "尚未消耗每周额度。"
+    },
+    {
+      "regex": "^You\\s+have\\s+not\\s+used\\s+any\\s+of\\s+your\\s+5-hour\\s+limit\\.$",
+      "flags": "i",
+      "replace": "尚未消耗 5 小时额度。"
+    },
+    {
+      "regex": "^Available\\s+for\\s+(.+)$",
+      "flags": "",
+      "replace": "适用于 $1"
     }
   ]
 }
