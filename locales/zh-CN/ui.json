@@ -70,7 +70,11 @@
     "New chats will be grouped by workspace.": "新对话将按工作区自动分组。",
 
     "Ask anything, @ to mention": "输入任何问题，输入 @ 引用上下文",
+    "Ask anything, @ to mention, / for actions": "输入任何问题，@ 引用上下文，/ 调用指令",
     "Message subagent, @ to mention": "向子智能体发消息，输入 @ 引用上下文",
+    "View Usage": "查看用量",
+    "5h limit": "5 小时额度",
+    "Keyboard shortcuts": "快捷键",
     "Listening. Ask anything.": "正在聆听，请直接提问。",
     "Write a message": "输入消息",
     "Message this chat": "在此对话中发送消息",

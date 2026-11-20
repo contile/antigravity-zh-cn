@@ -8,6 +8,12 @@ Google Antigravity 桌面端（2.0+）的简体中文汉化补丁，支持 Windo
 
 基于实机前端资源提取词库，直接对 `app.asar` 做增量修改并重算 SHA-256 校验，不改可执行文件、无第三方依赖，自带原版备份和一键还原。
 
+## 效果预览
+
+![主界面与模型用量](docs/images/preview-main.png)
+
+![设置界面](docs/images/preview-settings.png)
+
 ## 覆盖范围
 
 - **主进程外壳**：应用顶部菜单、系统托盘（含运行中智能体计数）、右键菜单、WSL 菜单、原生退出/错误弹窗

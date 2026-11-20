@@ -23,12 +23,15 @@ function createTranslator(dict) {
   }));
 
   function localizeDurationUnits(str) {
-    if (!/\b(?:days?|hours?|minutes?|seconds?)\b/i.test(str)) return str;
+    if (!/\b\d+\s*(?:days?|hours?|minutes?|seconds?|d|h|m|s)\b/i.test(str)) return str;
     return str
       .replace(/(\d+)\s*days?\b/gi, '$1 天')
       .replace(/(\d+)\s*hours?\b/gi, '$1 小时')
       .replace(/(\d+)\s*minutes?\b/gi, '$1 分钟')
       .replace(/(\d+)\s*seconds?\b/gi, '$1 秒')
+      .replace(/(\d+)d\b/g, '$1 天')
+      .replace(/(\d+)h\b/g, '$1 小时')
+      .replace(/(\d+)m\b/g, '$1 分钟')
       .replace(/,\s*/g, ' ');
   }
 

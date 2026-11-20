@@ -334,6 +334,21 @@
       "regex": "^Available\\s+for\\s+(.+)$",
       "flags": "",
       "replace": "适用于 $1"
+    },
+    {
+      "regex": "^(\\d+%)\\s+left$",
+      "flags": "i",
+      "replace": "剩余 $1"
+    },
+    {
+      "regex": "^Resets\\s+in\\s+(.+)$",
+      "flags": "i",
+      "replace": "将于 $1 后重置"
+    },
+    {
+      "regex": "^Hey\\s+(.+?),?\\s+what\\s+should\\s+we\\s+build\\s+today\\?$",
+      "flags": "i",
+      "replace": "你好 $1，今天想一起构建什么？"
     }
   ]
 }
