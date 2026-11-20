@@ -349,6 +349,16 @@
       "regex": "^Hey\\s+(.+?),?\\s+what\\s+should\\s+we\\s+build\\s+today\\?$",
       "flags": "i",
       "replace": "你好 $1，今天想一起构建什么？"
+    },
+    {
+      "regex": "^Welcome\\s+back,\\s+(.+?)\\.\\s+Where\\s+should\\s+we\\s+pick\\s+up\\?$",
+      "flags": "",
+      "replace": "欢迎回来，$1。从哪里继续？"
+    },
+    {
+      "regex": "^Good\\s+to\\s+see\\s+you,\\s+(.+?)\\.\\s+What's\\s+next\\?$",
+      "flags": "",
+      "replace": "很高兴见到你，$1。接下来做什么？"
     }
   ]
 }

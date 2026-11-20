@@ -74,6 +74,15 @@ test('createTranslator matches dynamic patterns without mutating arbitrary prose
   assert.equal(translate('Change'), '更改');
   assert.equal(translate('Navigation'), '导航');
   assert.equal(translate('Layout Controls'), '布局控制');
+  assert.equal(translate('Resets in 6d 22h'), '将于 6 天 22 小时 后重置');
+  assert.equal(translate('Resets in 3h 30m'), '将于 3 小时 30 分钟 后重置');
+  assert.equal(translate('% left'), '% 剩余');
+  assert.equal(translate('Hey Alex, what should we build today?'), '你好 Alex，今天想一起构建什么？');
+  assert.equal(translate('Welcome back, Alex. Where should we pick up?'), '欢迎回来，Alex。从哪里继续？');
+  assert.equal(
+    translate('Ask anything, @ to mention, / for actions'),
+    '输入任何问题，@ 引用上下文，/ 调用指令'
+  );
 
   const sentence = 'Please refactor Settings and Terminal Sandbox in main.ts';
   assert.equal(translate(sentence), sentence);
