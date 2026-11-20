@@ -1,0 +1,136 @@
+{
+  "exact": {
+    "File": "文件",
+    "Edit": "编辑",
+    "View": "视图",
+    "Window": "窗口",
+    "Help": "帮助",
+    "Services": "服务",
+    "Speech": "语音",
+
+    "New Window": "新建窗口",
+    "Open Workspace": "打开工作区",
+    "Open workspace": "打开工作区",
+    "Open Workspaces": "打开多个工作区",
+    "Open workspaces": "打开多个工作区",
+    "Select Download Folder": "选择下载目录",
+    "Connect to WSL": "连接到 WSL",
+    "Reopen Locally": "在本地重新打开",
+    "Close": "关闭",
+    "Close Window": "关闭窗口",
+    "Quit": "退出",
+    "Exit": "退出",
+    "Quit Antigravity": "退出 Antigravity",
+    "Hide Antigravity": "隐藏 Antigravity",
+    "Hide Others": "隐藏其他",
+    "Unhide": "全部显示",
+    "About Antigravity": "关于 Antigravity",
+
+    "Undo": "撤销",
+    "Redo": "重做",
+    "Cut": "剪切",
+    "Copy": "复制",
+    "Paste": "粘贴",
+    "Paste and Match Style": "粘贴并匹配样式",
+    "Delete": "删除",
+    "Select All": "全选",
+    "Find": "查找",
+    "Find Next": "查找下一个",
+    "Find Previous": "查找上一个",
+    "Start Speaking": "开始朗读",
+    "Stop Speaking": "停止朗读",
+
+    "Reload": "重新加载",
+    "Force Reload": "强制重新加载",
+    "Toggle Developer Tools": "切换开发者工具",
+    "Toggle Debug Console": "切换调试控制台",
+    "Actual Size": "实际大小",
+    "Zoom In": "放大",
+    "Zoom Out": "缩小",
+    "Toggle Full Screen": "切换全屏",
+    "Enter Full Screen": "进入全屏",
+    "Exit Full Screen": "退出全屏",
+
+    "Minimize": "最小化",
+    "Zoom": "缩放",
+    "Front": "前置全部窗口",
+    "Bring All to Front": "前置全部窗口",
+
+    "Docs": "官方文档",
+    "Documentation": "官方文档",
+    "Learn More": "了解更多",
+    "Check for Updates": "检查更新",
+    "Checking for Updates...": "正在检查更新...",
+    "Downloading Update...": "正在下载更新...",
+    "Restart to Update": "重启并更新",
+    "No updates available": "当前已是最新版本",
+
+    "Open Antigravity": "打开 Antigravity",
+    "Open Antigravity Insiders": "打开 Antigravity Insiders",
+    "No agents running": "当前无运行中的智能体",
+    "1 agent running": "1 个智能体运行中",
+
+    "Confirm Quit": "确认退出",
+    "Are you sure you want to quit?": "确定要退出 Antigravity 吗？",
+    "There may be agents or background tasks running.": "当前可能仍有智能体或后台任务正在运行。",
+    "Cancel": "取消",
+    "OK": "确定",
+    "Continue": "继续",
+    "Startup failed": "启动失败",
+    "WSL distro not found": "未找到 WSL 发行版",
+    "Antigravity opened on Windows instead.": "已改为在 Windows 本地打开 Antigravity。",
+    "Folder is on the Windows filesystem": "该文件夹位于 Windows 文件系统中",
+
+    "Inspect Element": "检查元素",
+    "Copy Link": "复制链接",
+    "Copy Link Address": "复制链接地址",
+    "Copy Image": "复制图片",
+    "Copy Image Address": "复制图片地址",
+    "Save Image As...": "图片另存为...",
+    "Open Link in Browser": "在浏览器中打开链接",
+    "Open in New Tab": "在新标签页中打开",
+    "Open in New Window": "在新窗口中打开",
+    "Reveal in File Explorer": "在文件资源管理器中显示",
+    "Reveal in Finder": "在访达中显示",
+    "Copy Path": "复制路径",
+    "Copy Relative Path": "复制相对路径",
+    "Rename": "重命名",
+    "Pin": "置顶",
+    "Unpin": "取消置顶",
+    "Archive": "归档",
+    "Unarchive": "取消归档",
+    "Duplicate": "创建副本"
+  },
+  "patterns": [
+    {
+      "regex": "^(\\d+)\\s+agents?\\s+running$",
+      "flags": "i",
+      "replace": "$1 个智能体运行中"
+    },
+    {
+      "regex": "^Open\\s+(Antigravity(?:\\s+\\S+)?)$",
+      "flags": "",
+      "replace": "打开 $1"
+    },
+    {
+      "regex": "^Quit\\s+(Antigravity(?:\\s+\\S+)?)$",
+      "flags": "",
+      "replace": "退出 $1"
+    },
+    {
+      "regex": "^Hide\\s+(Antigravity(?:\\s+\\S+)?)$",
+      "flags": "",
+      "replace": "隐藏 $1"
+    },
+    {
+      "regex": "^About\\s+(Antigravity(?:\\s+\\S+)?)$",
+      "flags": "",
+      "replace": "关于 $1"
+    },
+    {
+      "regex": "^Update\\s+available\\s*\\(([^)]+)\\)$",
+      "flags": "i",
+      "replace": "发现新版本 ($1)"
+    }
+  ]
+}

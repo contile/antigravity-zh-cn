@@ -1,0 +1,37 @@
+{
+  "name": "antigravity-zh-cn",
+  "version": "1.0.0",
+  "description": "Zero-dependency Chinese (Simplified) localization toolkit for Google Antigravity Desktop (2.0+)",
+  "keywords": [
+    "antigravity",
+    "google-antigravity",
+    "chinese",
+    "zh-cn",
+    "i18n",
+    "localization",
+    "electron",
+    "asar"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/contile/antigravity-zh-cn#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/contile/antigravity-zh-cn.git"
+  },
+  "bugs": {
+    "url": "https://github.com/contile/antigravity-zh-cn/issues"
+  },
+  "bin": {
+    "antigravity-zh-cn": "./bin/cli.js"
+  },
+  "scripts": {
+    "install-cn": "node bin/cli.js install",
+    "restore": "node bin/cli.js restore",
+    "status": "node bin/cli.js status",
+    "validate-dict": "node bin/cli.js validate-dict",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

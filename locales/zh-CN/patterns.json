@@ -1,0 +1,149 @@
+{
+  "patterns": [
+    {
+      "regex": "^(\\d+)\\s+files?\\s+changed$",
+      "flags": "i",
+      "replace": "$1 个文件已变更"
+    },
+    {
+      "regex": "^(\\d+)\\s+changes?$",
+      "flags": "i",
+      "replace": "$1 处变更"
+    },
+    {
+      "regex": "^(\\d+)\\s+lines?$",
+      "flags": "i",
+      "replace": "$1 行"
+    },
+    {
+      "regex": "^Read\\s+(\\d+)\\s+lines?$",
+      "flags": "i",
+      "replace": "已读取 $1 行"
+    },
+    {
+      "regex": "^Thought\\s+for\\s+(\\d+(?:\\.\\d+)?)\\s*s(?:ec(?:ond)?s?)?$",
+      "flags": "i",
+      "replace": "已思考 $1 秒"
+    },
+    {
+      "regex": "^Thought\\s+for\\s+(\\d+)\\s*m(?:in(?:ute)?s?)?\\s+(\\d+)\\s*s$",
+      "flags": "i",
+      "replace": "已思考 $1 分 $2 秒"
+    },
+    {
+      "regex": "^(\\d+)\\s+seconds?\\s+ago$",
+      "flags": "i",
+      "replace": "$1 秒前"
+    },
+    {
+      "regex": "^(\\d+)\\s+minutes?\\s+ago$",
+      "flags": "i",
+      "replace": "$1 分钟前"
+    },
+    {
+      "regex": "^(\\d+)\\s+hours?\\s+ago$",
+      "flags": "i",
+      "replace": "$1 小时前"
+    },
+    {
+      "regex": "^(\\d+)\\s+days?\\s+ago$",
+      "flags": "i",
+      "replace": "$1 天前"
+    },
+    {
+      "regex": "^(\\d+)\\s+weeks?\\s+ago$",
+      "flags": "i",
+      "replace": "$1 周前"
+    },
+    {
+      "regex": "^(\\d+)\\s+months?\\s+ago$",
+      "flags": "i",
+      "replace": "$1 个月前"
+    },
+    {
+      "regex": "^Just\\s+now$",
+      "flags": "i",
+      "replace": "刚刚"
+    },
+    {
+      "regex": "^Today$",
+      "flags": "",
+      "replace": "今天"
+    },
+    {
+      "regex": "^Yesterday$",
+      "flags": "",
+      "replace": "昨天"
+    },
+    {
+      "regex": "^This\\s+Week$",
+      "flags": "i",
+      "replace": "本周"
+    },
+    {
+      "regex": "^Last\\s+Week$",
+      "flags": "i",
+      "replace": "上周"
+    },
+    {
+      "regex": "^This\\s+Month$",
+      "flags": "i",
+      "replace": "本月"
+    },
+    {
+      "regex": "^Older$",
+      "flags": "",
+      "replace": "更早"
+    },
+    {
+      "regex": "^Showing\\s+(\\d+)\\s+of\\s+(\\d+)$",
+      "flags": "i",
+      "replace": "显示 $1 / $2"
+    },
+    {
+      "regex": "^(\\d+)\\s+agents?\\s+running$",
+      "flags": "i",
+      "replace": "$1 个智能体运行中"
+    },
+    {
+      "regex": "^(\\d+)\\s+tasks?\\s+running$",
+      "flags": "i",
+      "replace": "$1 个任务运行中"
+    },
+    {
+      "regex": "^(\\d+)\\s+results?$",
+      "flags": "i",
+      "replace": "$1 条结果"
+    },
+    {
+      "regex": "^(\\d+)\\s+items?$",
+      "flags": "i",
+      "replace": "$1 项"
+    },
+    {
+      "regex": "^Setting\\s+up\\s+WSL:\\s+(.+)$",
+      "flags": "",
+      "replace": "正在配置 WSL：$1"
+    },
+    {
+      "regex": "^Connecting\\s+to\\s+(.+)$",
+      "flags": "",
+      "replace": "正在连接到 $1"
+    },
+    {
+      "regex": "^Version\\s+([\\d.]+.*)$",
+      "flags": "",
+      "replace": "版本 $1"
+    },
+    {
+      "regex": "^Exit\\s+code\\s+(-?\\d+)$",
+      "flags": "i",
+      "replace": "退出码 $1"
+    },
+    {
+      "regex": "^Exited\\s+with\\s+code\\s+(-?\\d+)$",
+      "flags": "i",
+      "replace": "已退出（代码 $1）"
+    }
+  ]
+}

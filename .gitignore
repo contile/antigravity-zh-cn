@@ -1,0 +1,8 @@
+node_modules/
+*.asar
+*.asar.bak
+*.asar.zh-cn.bak
+*.tmp
+.DS_Store
+Thumbs.db
+*.log
